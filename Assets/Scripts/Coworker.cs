@@ -4,6 +4,8 @@ public class Coworker : MonoBehaviour
 {
     [SerializeField] private float _loseCharmRate = 1f;
 
+    private SpriteRenderer _spriteRenderer;
+
     private const float _maxCharm = 100f;
     private const float _charmEffect = 40f;
     private float _charm;
@@ -12,6 +14,8 @@ public class Coworker : MonoBehaviour
 
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
         _charm = _maxCharm;
     }
 
