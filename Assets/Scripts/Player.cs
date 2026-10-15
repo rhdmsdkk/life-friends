@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     private Vector3 _movement;
     private Coworker _coworker = null;
+    private bool _canMove = false;
 
     private Rigidbody _rb;
     private Camera _camera;
@@ -61,7 +62,15 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        _rb.linearVelocity = _speed * 100f * Time.fixedDeltaTime * _movement;
+        if (_canMove)
+        {
+            _rb.linearVelocity = _speed * 100f * Time.fixedDeltaTime * _movement;
+        }
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        _canMove = canMove;
     }
 
     public void SetMode(InteractMode mode)
@@ -80,6 +89,11 @@ public class Player : MonoBehaviour
 
     private void Interact()
     {
+        if (!_canMove)
+        {
+            return;
+        }
+
         switch (_mode)
         {
             case InteractMode.APPEASE:
