@@ -4,7 +4,10 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed = 1f;
 
+    [SerializeField] private BoxCollider _interactionTrigger;
+
     private Vector3 _movement;
+    private Coworker _coworker = null;
 
     private Rigidbody _rb;
     private Camera _camera;
@@ -26,6 +29,22 @@ public class Player : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
 
+        CalculateMovement();
+
+        if (_coworker != null && Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            AppeaseCoworker();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+    #region [Movement]
+    private void CalculateMovement()
+    {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -33,8 +52,33 @@ public class Player : MonoBehaviour
         _movement.y = 0;
     }
 
-    private void FixedUpdate()
+    private void Move()
     {
         _rb.linearVelocity = _speed * 100f * Time.fixedDeltaTime * _movement;
     }
+    #endregion
+
+    #region [Coworkers]
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out _coworker))
+        {
+            Debug.Log("can APPEASE");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Coworker>(out var coworker) && coworker == _coworker)
+        {
+            _coworker = null;
+            Debug.Log("cannot APPEASE");
+        }
+    }
+
+    private void AppeaseCoworker()
+    {
+        _coworker.Appease();
+    }
+    #endregion
 }
