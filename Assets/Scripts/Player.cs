@@ -1,5 +1,7 @@
 using UnityEngine;
 
+public enum InteractMode { APPEASE, SUBMIT, PICK_UP, WORK };
+
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed = 1f;
@@ -12,11 +14,15 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rb;
     private Camera _camera;
+    private Canvas _hud;
+
+    private InteractMode _mode = InteractMode.APPEASE;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _camera = GetComponentInChildren<Camera>();
+        _hud = GetComponentInChildren<Canvas>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -34,7 +40,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Appease();
+            Interact();
         }
     }
 
@@ -43,7 +49,7 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    #region [Movement]
+    #region [Movement & Interaction]
     private void CalculateMovement()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -56,6 +62,33 @@ public class Player : MonoBehaviour
     private void Move()
     {
         _rb.linearVelocity = _speed * 100f * Time.fixedDeltaTime * _movement;
+    }
+
+    public void SetMode(InteractMode mode)
+    {
+        _mode = mode;
+
+        if (_mode == InteractMode.APPEASE)
+        {
+            _hud.enabled = true;
+        }
+        else
+        {
+            _hud.enabled = false;
+        }
+    }
+
+    private void Interact()
+    {
+        switch (_mode)
+        {
+            case InteractMode.APPEASE:
+                Appease();
+                break;
+            case InteractMode.WORK:
+                Work();
+                break;
+        }
     }
     #endregion
 
@@ -83,4 +116,9 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    private void Work()
+    {
+        // work
+    }
 }
