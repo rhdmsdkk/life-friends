@@ -61,10 +61,7 @@ public class Player : MonoBehaviour
     #region [Coworkers]
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out _coworker))
-        {
-            Debug.Log("can APPEASE");
-        }
+        if (other.TryGetComponent(out _coworker)) { }
     }
 
     private void OnTriggerExit(Collider other)
@@ -72,7 +69,6 @@ public class Player : MonoBehaviour
         if (other.TryGetComponent<Coworker>(out var coworker) && coworker == _coworker)
         {
             _coworker = null;
-            Debug.Log("cannot APPEASE");
         }
     }
 

@@ -12,11 +12,17 @@ public class Coworker : MonoBehaviour
 
     private bool _didKill = false;
 
+    private Vector3 _originalPos;
+
+    private float _shakeAmount = 0f;
+
     private void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         _charm = _maxCharm;
+
+        _originalPos = transform.position;
     }
 
     private void Update()
@@ -27,18 +33,49 @@ public class Coworker : MonoBehaviour
         {
             Kill();
         }
+
+        Shake();
     }
 
     public void Appease()
     {
         _charm = Mathf.Min(_charm + _charmEffect, _maxCharm);
-
-        Debug.Log("APPEASE: " + _charm);
     }
 
     private void Kill()
     {
         _didKill = true;
-        Debug.Log("KILL");
+        _spriteRenderer.color = Color.red;
+        _charm = 0f;
+    }
+
+    private void Shake()
+    {
+        float charmGap = _maxCharm - _charm;
+
+        // wutever
+        if (charmGap < 45f)
+        {
+            _shakeAmount = 2f;
+        }
+        else if (charmGap < 60f)
+        {
+            _shakeAmount = 15f;
+        }
+        else if (charmGap < 80f)
+        {
+            _shakeAmount = 50f;
+        }
+        else
+        {
+            _shakeAmount = 90f;
+        }
+
+        Vector3 newPos = Random.insideUnitCircle * (Time.deltaTime * _shakeAmount);
+
+        newPos += _originalPos;
+        newPos.z = _originalPos.z;
+
+        transform.position = newPos;
     }
 }
