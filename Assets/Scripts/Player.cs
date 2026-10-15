@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 1f;
 
     [SerializeField] private BoxCollider _interactionTrigger;
+    [SerializeField] private ParticleSystem _particleSystem;
 
     private Vector3 _movement;
     private Coworker _coworker = null;
@@ -31,9 +32,9 @@ public class Player : MonoBehaviour
 
         CalculateMovement();
 
-        if (_coworker != null && Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            AppeaseCoworker();
+            Appease();
         }
     }
 
@@ -72,9 +73,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void AppeaseCoworker()
+    private void Appease()
     {
-        _coworker.Appease();
+        _particleSystem.Play();
+
+        if (_coworker != null)
+        {
+            _coworker.Appease();
+        }
     }
     #endregion
 }
