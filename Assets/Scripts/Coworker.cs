@@ -53,23 +53,7 @@ public class Coworker : MonoBehaviour
     {
         float charmGap = _maxCharm - _charm;
 
-        // wutever
-        if (charmGap < 45f)
-        {
-            _shakeAmount = 2f;
-        }
-        else if (charmGap < 60f)
-        {
-            _shakeAmount = 15f;
-        }
-        else if (charmGap < 80f)
-        {
-            _shakeAmount = 50f;
-        }
-        else
-        {
-            _shakeAmount = 90f;
-        }
+        _shakeAmount = Mathf.Max(1f, (charmGap * charmGap) / _maxCharm);
 
         Vector3 newPos = Random.insideUnitCircle * (Time.deltaTime * _shakeAmount);
 
