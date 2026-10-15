@@ -5,11 +5,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 1f;
 
     private Vector3 _movement;
+
     private Rigidbody _rb;
+    private Camera _camera;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+
+        _camera = GetComponentInChildren<Camera>();
     }
 
     void Update()
@@ -20,7 +24,11 @@ public class Player : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
 
-        _movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        _movement = (_camera.transform.right * horizontal + _camera.transform.forward * vertical).normalized;
+        _movement.y = 0;
     }
 
     private void FixedUpdate()
