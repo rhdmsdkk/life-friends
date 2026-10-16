@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum GameState { TITLE, PLAY, FAIL }
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
                     StartPlay();
                     break;
                 case GameState.FAIL:
-                    StartTitle();
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name); // restart
                     break;
             }
         }
@@ -47,9 +49,16 @@ public class GameManager : MonoBehaviour
 
     private void StartPlay()
     {
+        StartCoroutine(IStartPlay());
+    }
+
+    private IEnumerator IStartPlay()
+    {
         _gameState = GameState.PLAY;
 
         _titleAnimator.Play("TitleExit");
+
+        yield return new WaitForSeconds(0.2f);
 
         _player.SetMode(InteractMode.APPEASE);
     }
@@ -59,5 +68,10 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.FAIL;
 
         _player.SetMode(InteractMode.DISABLED);
+    }
+
+    public GameState GetGameState()
+    {
+        return _gameState;
     }
 }

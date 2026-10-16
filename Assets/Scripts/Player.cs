@@ -67,6 +67,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void LockMovement()
+    {
+        _rb.linearVelocity = Vector3.zero;
+    }
+
     public void SetMode(InteractMode mode)
     {
         _mode = mode;
@@ -99,14 +104,14 @@ public class Player : MonoBehaviour
 
         switch (_mode)
         {
+            case InteractMode.DISABLED:
+                return;
             case InteractMode.APPEASE:
                 Appease();
                 break;
             case InteractMode.WORK:
                 Work();
                 break;
-            case InteractMode.DISABLED:
-                return;
         }
     }
     #endregion

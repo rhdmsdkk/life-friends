@@ -6,12 +6,11 @@ public class Coworker : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private GameManager _gameManager;
+    private Player _player;
 
     private const float _maxCharm = 100f;
     private const float _charmEffect = 40f;
     private float _charm;
-
-    private bool _didKill = false;
 
     private Vector3 _originalPos;
 
@@ -21,6 +20,7 @@ public class Coworker : MonoBehaviour
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _gameManager = FindAnyObjectByType<GameManager>();
+        _player = FindAnyObjectByType<Player>();
 
         _charm = _maxCharm;
 
@@ -29,12 +29,7 @@ public class Coworker : MonoBehaviour
 
     private void Update()
     {
-        _charm -= _loseCharmRate * Time.deltaTime;
-
-        if (_charm <= 0 && !_didKill)
-        {
-            Kill();
-        }
+        LoseCharm();
 
         Shake();
     }
@@ -46,11 +41,23 @@ public class Coworker : MonoBehaviour
 
     private void Kill()
     {
-        _didKill = true;
+        _gameManager.StartFail();
         _spriteRenderer.color = Color.red;
         _charm = 0f;
+        _player.LockMovement();
+    }
 
-        _gameManager.StartFail();
+    private void LoseCharm()
+    {
+        if (_gameManager.GetGameState() == GameState.PLAY)
+        {
+            _charm -= _loseCharmRate * Time.deltaTime;
+        }
+
+        if (_charm <= 0)
+        {
+            Kill();
+        }
     }
 
     private void Shake()
