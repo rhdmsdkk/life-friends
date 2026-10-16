@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum InteractMode { APPEASE, SUBMIT, PICK_UP, WORK, DISABLED };
@@ -11,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Canvas _hud;
 
     private Vector3 _movement;
-    private Coworker _coworker = null;
+    private List<Coworker> _coworkers;
     private bool _canMove = false;
 
     private Rigidbody _rb;
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _camera = GetComponentInChildren<Camera>();
+
+        _coworkers = new();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -119,14 +122,17 @@ public class Player : MonoBehaviour
     #region [Coworkers]
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out _coworker)) { }
+        if (other.TryGetComponent(out Coworker coworker))
+        {
+            _coworkers.Add(coworker);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<Coworker>(out var coworker) && coworker == _coworker)
+        if (other.TryGetComponent(out Coworker coworker))
         {
-            _coworker = null;
+            _coworkers.Remove(coworker);
         }
     }
 
@@ -134,9 +140,9 @@ public class Player : MonoBehaviour
     {
         _particleSystem.Play();
 
-        if (_coworker != null)
+        foreach (Coworker coworker in _coworkers)
         {
-            _coworker.Appease();
+            coworker.Appease();
         }
     }
     #endregion
