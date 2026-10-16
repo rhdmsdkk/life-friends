@@ -8,17 +8,23 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 1f;
 
     [SerializeField] private BoxCollider _interactionTrigger;
+    [SerializeField] private Transform _taskEquipTransform;
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Canvas _hud;
 
     private Vector3 _movement;
-    private List<Coworker> _coworkers;
     private bool _canMove = false;
 
     private Rigidbody _rb;
     private Camera _camera;
 
     private InteractMode _mode = InteractMode.DISABLED;
+
+    private List<Coworker> _coworkers;
+
+    // holding
+    private int _redTasks;
+    private int _blueTasks;
     
     void Start()
     {
@@ -29,6 +35,9 @@ public class Player : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        _redTasks = 0;
+        _blueTasks = 0;
     }
 
     void Update()
@@ -52,7 +61,7 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    #region [Movement & Interaction]
+    #region [Movement]
     private void CalculateMovement()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -74,7 +83,9 @@ public class Player : MonoBehaviour
     {
         _rb.linearVelocity = Vector3.zero;
     }
+    #endregion
 
+    #region [Interaction]
     public void SetMode(InteractMode mode)
     {
         _mode = mode;
@@ -117,9 +128,6 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-    #endregion
-
-    #region [Coworkers]
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Coworker coworker))
@@ -135,7 +143,9 @@ public class Player : MonoBehaviour
             _coworkers.Remove(coworker);
         }
     }
+    #endregion
 
+    #region [Coworkers]
     private void Appease()
     {
         _particleSystem.Play();
@@ -147,8 +157,10 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+    #region [Work]
     private void Work()
     {
         // work
     }
+    #endregion
 }
