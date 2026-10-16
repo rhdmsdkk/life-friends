@@ -23,21 +23,24 @@ public class Player : MonoBehaviour
     private List<Coworker> _coworkers;
 
     // holding
-    private int _redTasks;
-    private int _blueTasks;
+    private int _numRedTasks;
+    private int _numBlueTasks;
+    private List<RedTask> _redTasks;
     
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _camera = GetComponentInChildren<Camera>();
 
-        _coworkers = new();
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        _redTasks = 0;
-        _blueTasks = 0;
+        _coworkers = new();
+
+        _numRedTasks = 0;
+        _numBlueTasks = 0;
+
+        _redTasks = new();
     }
 
     void Update()
@@ -107,6 +110,8 @@ public class Player : MonoBehaviour
         {
             _canMove = true;
         }
+
+        Debug.Log(_mode);
     }
 
     private void Interact()
@@ -126,6 +131,9 @@ public class Player : MonoBehaviour
             case InteractMode.WORK:
                 Work();
                 break;
+            case InteractMode.PICK_UP:
+                PickUp();
+                break;
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -134,6 +142,12 @@ public class Player : MonoBehaviour
         {
             _coworkers.Add(coworker);
         }
+        
+        if (other.TryGetComponent(out RedTask redTask))
+        {
+            _numRedTasks++;
+            _redTasks.Add(redTask);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -141,6 +155,12 @@ public class Player : MonoBehaviour
         if (other.TryGetComponent(out Coworker coworker))
         {
             _coworkers.Remove(coworker);
+        }
+
+        if (other.TryGetComponent(out RedTask redTask))
+        {
+            _numRedTasks--;
+            _redTasks.Remove(redTask);
         }
     }
     #endregion
@@ -158,9 +178,31 @@ public class Player : MonoBehaviour
     #endregion
 
     #region [Work]
+    public bool isRed()
+    {
+        return _numRedTasks >= 1;
+    }
+
+    public bool isBlue()
+    {
+        return _numBlueTasks >= 1;
+    }
+
     private void Work()
     {
         // work
+    }
+
+    private void PickUp()
+    {
+        Debug.Log("picking up");
+
+        // probably refactor to call a task zone to update displayed tasks
+        foreach (RedTask redTask in _redTasks)
+        {
+            Destroy(redTask.gameObject);
+            _numRedTasks++;
+        }
     }
     #endregion
 }
