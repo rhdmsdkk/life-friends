@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum InteractMode { APPEASE, SUBMIT, PICK_UP, WORK };
+public enum InteractMode { APPEASE, SUBMIT, PICK_UP, WORK, DISABLED };
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private BoxCollider _interactionTrigger;
     [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private Canvas _hud;
 
     private Vector3 _movement;
     private Coworker _coworker = null;
@@ -15,15 +16,13 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rb;
     private Camera _camera;
-    private Canvas _hud;
 
-    private InteractMode _mode = InteractMode.APPEASE;
-
+    private InteractMode _mode = InteractMode.DISABLED;
+    
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _camera = GetComponentInChildren<Camera>();
-        _hud = GetComponentInChildren<Canvas>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -68,11 +67,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SetCanMove(bool canMove)
-    {
-        _canMove = canMove;
-    }
-
     public void SetMode(InteractMode mode)
     {
         _mode = mode;
@@ -84,6 +78,15 @@ public class Player : MonoBehaviour
         else
         {
             _hud.enabled = false;
+        }
+
+        if (mode == InteractMode.DISABLED)
+        {
+            _canMove = false;
+        }
+        else
+        {
+            _canMove = true;
         }
     }
 
@@ -102,6 +105,8 @@ public class Player : MonoBehaviour
             case InteractMode.WORK:
                 Work();
                 break;
+            case InteractMode.DISABLED:
+                return;
         }
     }
     #endregion

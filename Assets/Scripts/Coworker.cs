@@ -5,6 +5,7 @@ public class Coworker : MonoBehaviour
     [SerializeField] private float _loseCharmRate = 1f;
 
     private SpriteRenderer _spriteRenderer;
+    private GameManager _gameManager;
 
     private const float _maxCharm = 100f;
     private const float _charmEffect = 40f;
@@ -19,6 +20,7 @@ public class Coworker : MonoBehaviour
     private void Start()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _gameManager = FindAnyObjectByType<GameManager>();
 
         _charm = _maxCharm;
 
@@ -47,6 +49,8 @@ public class Coworker : MonoBehaviour
         _didKill = true;
         _spriteRenderer.color = Color.red;
         _charm = 0f;
+
+        _gameManager.StartFail();
     }
 
     private void Shake()

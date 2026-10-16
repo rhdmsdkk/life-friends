@@ -8783,6 +8783,7 @@ MonoBehaviour:
   _speed: 6
   _interactionTrigger: {fileID: 1223396499}
   _particleSystem: {fileID: 325446215}
+  _hud: {fileID: 1736137961}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -9346,7 +9347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eda017da416f341b76e1c6387a0ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _titleDuration: 500
   _title: {fileID: 307536178}
   _titleAnimator: {fileID: 307536180}
 --- !u!1001 &5708380313026539899

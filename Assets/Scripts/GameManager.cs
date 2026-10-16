@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
         _title.rectTransform.position = _titleSourcePos;
 
-        _player.SetCanMove(false);
+        _player.SetMode(InteractMode.DISABLED);
     }
 
     private void StartPlay()
@@ -51,13 +51,13 @@ public class GameManager : MonoBehaviour
 
         _titleAnimator.Play("TitleExit");
 
-        _player.SetCanMove(true);
+        _player.SetMode(InteractMode.APPEASE);
     }
 
     public void StartFail()
     {
         _gameState = GameState.FAIL;
 
-        _player.SetCanMove(false);
+        _player.SetMode(InteractMode.DISABLED);
     }
 }
