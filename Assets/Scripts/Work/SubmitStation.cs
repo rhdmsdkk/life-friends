@@ -6,7 +6,7 @@ public class SubmitStation : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            if (player.isBlue())
+            if (player.IsBlue())
             {
                 player.SetMode(InteractMode.SUBMIT);
             }

@@ -6,7 +6,14 @@ public class WorkStation : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            player.SetMode(InteractMode.WORK);
+            if (player.IsRed())
+            {
+                player.SetMode(InteractMode.WORK);
+            }
+            else
+            {
+                player.SetMode(InteractMode.WORK_PICK_UP);
+            }
         }
     }
 

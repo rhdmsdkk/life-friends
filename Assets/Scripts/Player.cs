@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InteractMode { APPEASE, SUBMIT, PICK_UP, WORK, DISABLED };
+public enum InteractMode { APPEASE, SUBMIT, PICK_UP, WORK, WORK_PICK_UP, DISABLED };
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed = 1f;
 
     [SerializeField] private BoxCollider _interactionTrigger;
-    [SerializeField] private Transform _taskEquipTransform;
+    [SerializeField] private EquipArea _equipArea;
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Canvas _hud;
+
+    [SerializeField] private RedTaskSpawner _redTaskSpawner;
 
     private Vector3 _movement;
     private bool _canMove = false;
@@ -22,7 +24,6 @@ public class Player : MonoBehaviour
 
     private List<Coworker> _coworkers;
 
-    // holding
     private int _numRedTasks;
     private int _numBlueTasks;
     private List<RedTask> _redTasks;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _camera = GetComponentInChildren<Camera>();
+        _equipArea = GetComponentInChildren<EquipArea>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -39,7 +41,6 @@ public class Player : MonoBehaviour
 
         _numRedTasks = 0;
         _numBlueTasks = 0;
-
         _redTasks = new();
     }
 
@@ -145,7 +146,6 @@ public class Player : MonoBehaviour
         
         if (other.TryGetComponent(out RedTask redTask))
         {
-            _numRedTasks++;
             _redTasks.Add(redTask);
         }
     }
@@ -159,7 +159,6 @@ public class Player : MonoBehaviour
 
         if (other.TryGetComponent(out RedTask redTask))
         {
-            _numRedTasks--;
             _redTasks.Remove(redTask);
         }
     }
@@ -178,30 +177,28 @@ public class Player : MonoBehaviour
     #endregion
 
     #region [Work]
-    public bool isRed()
+    public bool IsRed()
     {
         return _numRedTasks >= 1;
     }
 
-    public bool isBlue()
+    public bool IsBlue()
     {
         return _numBlueTasks >= 1;
     }
 
     private void Work()
     {
-        // work
+        // blue task spawner .SpawnBlueTask
+        _numRedTasks--;
     }
 
     private void PickUp()
     {
-        Debug.Log("picking up");
-
-        // probably refactor to call a task zone to update displayed tasks
-        foreach (RedTask redTask in _redTasks)
+        if (_redTaskSpawner.TakeRedTask())
         {
-            Destroy(redTask.gameObject);
             _numRedTasks++;
+            _equipArea.SpawnRedTask();
         }
     }
     #endregion
