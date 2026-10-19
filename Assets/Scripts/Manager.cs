@@ -66,5 +66,7 @@ public class Manager : MonoBehaviour
     {
         _gameManager.StartFail();
         _spriteRenderer.color = Color.red;
+
+        // bum rush player
     }
 }

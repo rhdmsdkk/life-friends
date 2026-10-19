@@ -44,13 +44,18 @@ public class Coworker : MonoBehaviour
         _gameManager.StartFail();
         _spriteRenderer.color = Color.red;
         _charm = 0f;
+
+        // bum rush player
     }
 
     private void LoseCharm()
     {
-        if (_gameManager.GetGameState() == GameState.PLAY)
+        GameState currentGameState = _gameManager.GetGameState();
+
+        if (currentGameState == GameState.PLAY || currentGameState == GameState.FAIL)
         {
             _charm -= _loseCharmRate * Time.deltaTime;
+            _charm = Mathf.Max(_charm, 0f);
         }
 
         if (_charm <= 0)
