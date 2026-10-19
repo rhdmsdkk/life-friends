@@ -13450,6 +13450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnTaskInterval: 5
   _redTaskSpawner: {fileID: 1348054284}
+  _maxRedTasks: 90
 --- !u!4 &8930451457483143572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8005076110576879295, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
