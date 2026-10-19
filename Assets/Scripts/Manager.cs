@@ -7,10 +7,12 @@ public class Manager : MonoBehaviour
 
     private Vector3 _originalPos;
     private float t = 0;
+    private int _performance;
 
     private void Start()
     {
         _originalPos = transform.position;
+        _performance = 0;
     }
 
     private void Update()
@@ -20,7 +22,7 @@ public class Manager : MonoBehaviour
         if (t > _spawnTaskInterval)
         {
             _redTaskSpawner.SpawnRedTask();
-            // _spawnTaskInterval -= 0.1f; // replace with performance-based value
+            _spawnTaskInterval -= _performance * 0.05f; // replace with formula impossible to reach 0
             t = 0;
         }
 
@@ -31,11 +33,16 @@ public class Manager : MonoBehaviour
     {
         float shakeAmount = _redTaskSpawner.GetNumTasks();
 
-        Vector3 newPos = UnityEngine.Random.insideUnitCircle * (Time.deltaTime * shakeAmount);
+        Vector3 newPos = Random.insideUnitCircle * (Time.deltaTime * shakeAmount);
 
         newPos += _originalPos;
         newPos.z = _originalPos.z;
 
         transform.position = newPos;
+    }
+
+    public void IncreasePerformance(int performance)
+    {
+        _performance += performance;
     }
 }

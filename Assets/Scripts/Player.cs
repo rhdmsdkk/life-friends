@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Canvas _hud;
 
     [SerializeField] private RedTaskSpawner _redTaskSpawner;
+    [SerializeField] private BlueTaskSpawner _blueTaskSpawner;
 
     private Vector3 _movement;
     private bool _canMove = false;
@@ -23,10 +24,7 @@ public class Player : MonoBehaviour
     private InteractMode _mode = InteractMode.DISABLED;
 
     private List<Coworker> _coworkers;
-
-    private int _numRedTasks;
-    private int _numBlueTasks;
-    private List<RedTask> _redTasks;
+    private Manager _manager;
     
     void Start()
     {
@@ -38,10 +36,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         _coworkers = new();
-
-        _numRedTasks = 0;
-        _numBlueTasks = 0;
-        _redTasks = new();
+        _manager = FindAnyObjectByType<Manager>();
     }
 
     void Update()
@@ -135,6 +130,12 @@ public class Player : MonoBehaviour
             case InteractMode.PICK_UP:
                 PickUp();
                 break;
+            case InteractMode.WORK_PICK_UP:
+                WorkPickUp();
+                break;
+            case InteractMode.SUBMIT:
+                Submit();
+                break;
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -143,11 +144,6 @@ public class Player : MonoBehaviour
         {
             _coworkers.Add(coworker);
         }
-        
-        if (other.TryGetComponent(out RedTask redTask))
-        {
-            _redTasks.Add(redTask);
-        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -155,11 +151,6 @@ public class Player : MonoBehaviour
         if (other.TryGetComponent(out Coworker coworker))
         {
             _coworkers.Remove(coworker);
-        }
-
-        if (other.TryGetComponent(out RedTask redTask))
-        {
-            _redTasks.Remove(redTask);
         }
     }
     #endregion
@@ -179,27 +170,46 @@ public class Player : MonoBehaviour
     #region [Work]
     public bool IsRed()
     {
-        return _numRedTasks >= 1;
+        return _equipArea.IsRed();
     }
 
     public bool IsBlue()
     {
-        return _numBlueTasks >= 1;
+        return _equipArea.IsBlue();
     }
 
     private void Work()
     {
-        // blue task spawner .SpawnBlueTask
-        _numRedTasks--;
+        _blueTaskSpawner.SpawnBlueTasks(_equipArea.GetNumRed());
+
+        _equipArea.FlushRedTasks();
+
+        SetMode(InteractMode.WORK_PICK_UP);
     }
 
     private void PickUp()
     {
         if (_redTaskSpawner.TakeRedTask())
         {
-            _numRedTasks++;
             _equipArea.SpawnRedTask();
         }
+    }
+
+    private void WorkPickUp()
+    {
+        if (_blueTaskSpawner.TakeBlueTask())
+        {
+            _equipArea.SpawnBlueTask();
+        }
+    }
+
+    private void Submit()
+    {
+        _manager.IncreasePerformance(_equipArea.GetNumBlue());
+
+        _equipArea.FlushBlueTasks();
+
+        SetMode(InteractMode.PICK_UP);
     }
     #endregion
 }

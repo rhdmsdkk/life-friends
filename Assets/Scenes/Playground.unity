@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _redTaskPrefab: {fileID: 7401367542994312533, guid: 4af6b85dc891b4141aa010659b419c40, type: 3}
+  _blueTaskPrefab: {fileID: 7401367542994312533, guid: 0e32da2e2d3f70b40b216dcf7fcf975d, type: 3}
 --- !u!1001 &106898541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1505,6 +1506,51 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1044443516}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &241372145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 241372147}
+  - component: {fileID: 241372146}
+  m_Layer: 0
+  m_Name: Blue Task Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &241372146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241372145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5d37346660fcf46a2df3bdc1aa1f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blueTaskPrefab: {fileID: 7401367542994312533, guid: 0e32da2e2d3f70b40b216dcf7fcf975d, type: 3}
+--- !u!4 &241372147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241372145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.53, y: 1.052, z: -2.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &267908633
 Mesh:
@@ -10067,6 +10113,7 @@ MonoBehaviour:
   _particleSystem: {fileID: 325446215}
   _hud: {fileID: 1736137961}
   _redTaskSpawner: {fileID: 1348054284}
+  _blueTaskSpawner: {fileID: 241372146}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -11765,7 +11812,7 @@ Transform:
   m_GameObject: {fileID: 1348054283}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.475, y: 1.052, z: 1.07}
+  m_LocalPosition: {x: 10.5, y: 1.052, z: 1.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13401,7 +13448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a69601899bfb7c438853c855fba962c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnTaskInterval: 1
+  _spawnTaskInterval: 5
   _redTaskSpawner: {fileID: 1348054284}
 --- !u!4 &8930451457483143572 stripped
 Transform:
@@ -13477,3 +13524,4 @@ SceneRoots:
   - {fileID: 1044443516}
   - {fileID: 832129391780783872}
   - {fileID: 1348054285}
+  - {fileID: 241372147}
