@@ -44,7 +44,6 @@ public class Coworker : MonoBehaviour
         _gameManager.StartFail();
         _spriteRenderer.color = Color.red;
         _charm = 0f;
-        _player.LockMovement();
     }
 
     private void LoseCharm()

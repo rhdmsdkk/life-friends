@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
         if (mode == InteractMode.DISABLED)
         {
             _canMove = false;
+            LockMovement();
         }
         else
         {
