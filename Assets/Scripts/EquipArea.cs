@@ -59,8 +59,10 @@ public class EquipArea : MonoBehaviour
         _redTasks.Add(newRedTask);
     }
 
-    public void FlushRedTasks()
+    public bool FlushRedTasks()
     {
+        bool didFlush = false;
+
         while (_numRedTasks > 0)
         {
             RedTask topRedTask = _redTasks[_numRedTasks - 1];
@@ -70,7 +72,11 @@ public class EquipArea : MonoBehaviour
             Destroy(topRedTask.gameObject);
 
             _numRedTasks--;
+
+            didFlush = true;
         }
+
+        return didFlush;
     }
 
     public void SpawnBlueTask()
@@ -91,8 +97,10 @@ public class EquipArea : MonoBehaviour
         _blueTasks.Add(newBlueTask);
     }
 
-    public void FlushBlueTasks()
+    public bool FlushBlueTasks()
     {
+        bool didFlush = false;
+
         while (_numBlueTasks > 0)
         {
             BlueTask topBlueTask = _blueTasks[_numBlueTasks - 1];
@@ -102,6 +110,10 @@ public class EquipArea : MonoBehaviour
             Destroy(topBlueTask.gameObject);
 
             _numBlueTasks--;
+
+            didFlush = true;
         }
+
+        return didFlush;
     }
 }

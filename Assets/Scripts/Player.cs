@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rb;
     private Camera _camera;
+    private AudioSource _audio;
 
     private InteractMode _mode = InteractMode.DISABLED;
 
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _camera = GetComponentInChildren<Camera>();
+        _audio = GetComponent<AudioSource>();
         _equipArea = GetComponentInChildren<EquipArea>();
 
         Cursor.visible = false;
@@ -183,7 +185,10 @@ public class Player : MonoBehaviour
     {
         _blueTaskSpawner.SpawnBlueTasks(_equipArea.GetNumRed());
 
-        _equipArea.FlushRedTasks();
+        if (_equipArea.FlushRedTasks())
+        {
+            _audio.Play();
+        }
 
         SetMode(InteractMode.WORK_PICK_UP);
     }
@@ -193,6 +198,7 @@ public class Player : MonoBehaviour
         if (_redTaskSpawner.TakeRedTask())
         {
             _equipArea.SpawnRedTask();
+            _audio.Play();
         }
     }
 
@@ -201,6 +207,7 @@ public class Player : MonoBehaviour
         if (_blueTaskSpawner.TakeBlueTask())
         {
             _equipArea.SpawnBlueTask();
+            _audio.Play();
         }
     }
 
@@ -208,7 +215,10 @@ public class Player : MonoBehaviour
     {
         _manager.IncreasePerformance(_equipArea.GetNumBlue());
 
-        _equipArea.FlushBlueTasks();
+        if (_equipArea.FlushBlueTasks())
+        {
+            _audio.Play();
+        }
 
         SetMode(InteractMode.PICK_UP);
     }
