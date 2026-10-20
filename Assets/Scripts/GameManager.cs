@@ -11,12 +11,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator _titleAnimator;
 
     private Player _player;
+    private Manager _manager;
     private GameState _gameState;
     private Vector3 _titleSourcePos;
 
     void Start()
     {
         _player = FindAnyObjectByType<Player>();
+        _manager = FindAnyObjectByType<Manager>();
         _titleSourcePos = _title.rectTransform.position;
 
         StartTitle();
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.PLAY;
 
         _titleAnimator.Play("TitleExit");
+        _manager.ClearScore();
 
         yield return new WaitForSeconds(0.2f);
 

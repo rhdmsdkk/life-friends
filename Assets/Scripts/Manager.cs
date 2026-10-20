@@ -1,4 +1,4 @@
-using System;
+using TMPro;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
@@ -8,6 +8,8 @@ public class Manager : MonoBehaviour
 
     [SerializeField] private RedTaskSpawner _redTaskSpawner;
     [SerializeField] private int _maxRedTasks = 10;
+
+    [SerializeField] private TextMeshProUGUI _scoreText;
 
     private SpriteRenderer _spriteRenderer;
 
@@ -27,6 +29,8 @@ public class Manager : MonoBehaviour
 
         _originalPos = transform.position;
         _performance = 0;
+
+        _scoreText.text = PlayerPrefs.GetInt("highscore", 0).ToString();
     }
 
     private void Update()
@@ -64,6 +68,25 @@ public class Manager : MonoBehaviour
         _performance += performance;
         _spawnTaskInterval = _originalSpawnTaskInterval - Mathf.Sqrt(_performance) * 0.3f;
         _spawnTaskInterval = Mathf.Max(0.1f, _spawnTaskInterval);
+        _scoreText.text = _performance.ToString();
+
+        SetHighScore();
+    }
+
+    private void SetHighScore()
+    {
+        int highscore = PlayerPrefs.GetInt("highscore", 0);
+
+        if (_performance > highscore)
+        {
+            PlayerPrefs.SetInt("highscore", _performance);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void ClearScore()
+    {
+        _scoreText.text = "0";
     }
 
     private void Kill()
