@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2382b3029b04d3459804830067e26a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loseCharmRate: 6
+  _loseCharmRate: 2.5
   _moveInterval: 3
   _moveLength: 0.5
 --- !u!54 &5530819085511598789

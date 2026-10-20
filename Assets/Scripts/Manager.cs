@@ -12,23 +12,27 @@ public class Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scoreText;
 
     private SpriteRenderer _spriteRenderer;
+    private AudioSource _audio;
 
     private GameManager _gameManager;
 
     private Vector3 _originalPos;
     private float t = 0;
     private int _performance;
+    private bool _didKill;
 
     private void Start()
     {
         _spawnTaskInterval = _originalSpawnTaskInterval;
 
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _audio = GetComponent<AudioSource>();
 
         _gameManager = FindAnyObjectByType<GameManager>();
 
         _originalPos = transform.position;
         _performance = 0;
+        _didKill = false;
 
         _scoreText.text = PlayerPrefs.GetInt("highscore", 0).ToString();
     }
@@ -43,7 +47,7 @@ public class Manager : MonoBehaviour
             t = 0;
         }
 
-        if (_redTaskSpawner.GetNumTasks() >= _maxRedTasks)
+        if (_redTaskSpawner.GetNumTasks() >= _maxRedTasks && !_didKill)
         {
             Kill();
         }
@@ -91,9 +95,13 @@ public class Manager : MonoBehaviour
 
     private void Kill()
     {
+        _audio.Play();
+
         _gameManager.StartFail();
         _spriteRenderer.color = Color.red;
 
         // bum rush player
+
+        _didKill = true;
     }
 }
