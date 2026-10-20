@@ -1,10 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class Coworker : MonoBehaviour
 {
     [SerializeField] private float _loseCharmRate = 1f;
+    [SerializeField] private float _moveInterval = 3f;
+    [SerializeField] private float _moveLength = 0.5f;
 
     private SpriteRenderer _spriteRenderer;
+    private Rigidbody _rb;
     private GameManager _gameManager;
     private Player _player;
 
@@ -12,26 +16,60 @@ public class Coworker : MonoBehaviour
     private const float _charmEffect = 40f;
     private float _charm;
 
-    private Vector3 _originalPos;
+    private Vector3 _movement;
 
     private float _shakeAmount = 0f;
 
     private void Start()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _rb = GetComponent<Rigidbody>();
         _gameManager = FindAnyObjectByType<GameManager>();
         _player = FindAnyObjectByType<Player>();
 
         _charm = _maxCharm;
-
-        _originalPos = transform.position;
     }
 
+    private float t = 0f;
     private void Update()
     {
         LoseCharm();
 
         Shake();
+
+        t += Time.deltaTime;
+
+        if (t > _moveInterval)
+        {
+            Move();
+            t = 0f;
+        }
+    }
+
+    private void Move()
+    {
+        CalculateMovement();
+        StartCoroutine(IMove());
+    }
+
+    private IEnumerator IMove()
+    {
+        _rb.linearVelocity = 500f * Time.fixedDeltaTime * _movement;
+
+        yield return new WaitForSeconds(_moveLength);
+
+        _rb.linearVelocity = Vector3.zero;
+    }
+
+    private void CalculateMovement()
+    {
+        float horizontal = Random.Range(-1f, 1f);
+        float vertical = Random.Range(-1f, 1f);
+
+        Vector3 unitVector = new(1f, 1f, 1f);
+
+        _movement = (unitVector * horizontal + unitVector * vertical).normalized;
+        _movement.y = 0;
     }
 
     public void Appease()
@@ -72,9 +110,8 @@ public class Coworker : MonoBehaviour
 
         Vector3 newPos = Random.insideUnitCircle * (Time.deltaTime * _shakeAmount);
 
-        newPos += _originalPos;
-        newPos.z = _originalPos.z;
+        newPos.z = 0f;
 
-        transform.position = newPos;
+        _spriteRenderer.transform.localPosition = newPos;
     }
 }

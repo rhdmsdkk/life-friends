@@ -395,6 +395,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123829497}
     m_Modifications:
+    - target: {fileID: 573047814614636354, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
+      propertyPath: _moveInterval
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1519976985538624221, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
       propertyPath: m_Name
       value: Coworker (6)
@@ -11225,6 +11229,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123829497}
     m_Modifications:
+    - target: {fileID: 573047814614636354, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
+      propertyPath: _moveInterval
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1519976985538624221, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
       propertyPath: m_Name
       value: Coworker (5)
@@ -13035,6 +13043,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123829497}
     m_Modifications:
+    - target: {fileID: 573047814614636354, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
+      propertyPath: _moveInterval
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1519976985538624221, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
       propertyPath: m_Name
       value: Coworker (2)
@@ -13100,6 +13112,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123829497}
     m_Modifications:
+    - target: {fileID: 573047814614636354, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
+      propertyPath: _moveInterval
+      value: 4.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1519976985538624221, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
       propertyPath: m_Name
       value: Coworker (4)
@@ -13170,6 +13186,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123829497}
     m_Modifications:
+    - target: {fileID: 573047814614636354, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
+      propertyPath: _moveInterval
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1519976985538624221, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
       propertyPath: m_Name
       value: Coworker (3)
@@ -13369,6 +13389,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123829497}
     m_Modifications:
+    - target: {fileID: 573047814614636354, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
+      propertyPath: _moveInterval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1519976985538624221, guid: 61f968c0334e50544a2a4318b2601849, type: 3}
       propertyPath: m_Name
       value: Coworker
