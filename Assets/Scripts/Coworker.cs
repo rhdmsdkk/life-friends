@@ -10,6 +10,7 @@ public class Coworker : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Rigidbody _rb;
     private GameManager _gameManager;
+    private AudioSource _audio;
     private Player _player;
 
     private const float _maxCharm = 100f;
@@ -19,15 +20,18 @@ public class Coworker : MonoBehaviour
     private Vector3 _movement;
 
     private float _shakeAmount = 0f;
+    private bool _didKill;
 
     private void Start()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _rb = GetComponent<Rigidbody>();
         _gameManager = FindAnyObjectByType<GameManager>();
+        _audio = GetComponent<AudioSource>();
         _player = FindAnyObjectByType<Player>();
 
         _charm = _maxCharm;
+        _didKill = false;
     }
 
     private float t = 0f;
@@ -79,11 +83,13 @@ public class Coworker : MonoBehaviour
 
     private void Kill()
     {
+        _audio.Play();
+
         _gameManager.StartFail();
         _spriteRenderer.color = Color.red;
         _charm = 0f;
 
-        // bum rush player
+        _didKill = true;
     }
 
     private void LoseCharm()
@@ -96,7 +102,7 @@ public class Coworker : MonoBehaviour
             _charm = Mathf.Max(_charm, 0f);
         }
 
-        if (_charm <= 0)
+        if (_charm <= 0 && !_didKill)
         {
             Kill();
         }
