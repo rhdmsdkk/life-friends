@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     private Player _player;
     private Manager _manager;
+    private AudioSource _audio;
+
     private GameState _gameState;
     private Vector3 _titleSourcePos;
     private bool _failed;
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour
     {
         _player = FindAnyObjectByType<Player>();
         _manager = FindAnyObjectByType<Manager>();
+        _audio = GetComponent<AudioSource>();
+
         _titleSourcePos = _title.rectTransform.position;
         _failed = false;
 
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
 
         _titleAnimator.Play("TitleExit");
         _manager.ClearScore();
+        _audio.Play();
 
         yield return new WaitForSeconds(0.2f);
 

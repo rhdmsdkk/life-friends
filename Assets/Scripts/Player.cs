@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private EquipArea _equipArea;
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Canvas _hud;
+    [SerializeField] private AudioSource _heartsAudio;
 
     [SerializeField] private RedTaskSpawner _redTaskSpawner;
     [SerializeField] private BlueTaskSpawner _blueTaskSpawner;
@@ -161,6 +162,7 @@ public class Player : MonoBehaviour
     #region [Coworkers]
     private void Appease()
     {
+        _heartsAudio.Play();
         _particleSystem.Play();
 
         foreach (Coworker coworker in _coworkers)
