@@ -9,17 +9,20 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Image _title;
     [SerializeField] private Animator _titleAnimator;
+    [SerializeField] private Image _killedOverlay;
 
     private Player _player;
     private Manager _manager;
     private GameState _gameState;
     private Vector3 _titleSourcePos;
+    private bool _failed;
 
     void Start()
     {
         _player = FindAnyObjectByType<Player>();
         _manager = FindAnyObjectByType<Manager>();
         _titleSourcePos = _title.rectTransform.position;
+        _failed = false;
 
         StartTitle();
     }
@@ -71,6 +74,26 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.FAIL;
 
         _player.SetMode(InteractMode.DISABLED);
+
+        if (!_failed)
+        {
+            StartCoroutine(ShowOverlay());
+            _failed = true;
+        }
+    }
+
+    private IEnumerator ShowOverlay()
+    {
+        float t = 0f;
+
+        Color killedOverlayColor = _killedOverlay.color;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            _killedOverlay.color = new Color(killedOverlayColor.r, killedOverlayColor.g, killedOverlayColor.b, t / 4f);
+            yield return null;
+        }
     }
 
     public GameState GetGameState()
