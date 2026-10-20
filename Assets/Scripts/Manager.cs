@@ -41,7 +41,7 @@ public class Manager : MonoBehaviour
     {
         t += Time.deltaTime;
 
-        if (t > _spawnTaskInterval)
+        if (t > _spawnTaskInterval && _gameManager.GetGameState() == GameState.PLAY)
         {
             _redTaskSpawner.SpawnRedTask();
             t = 0;
