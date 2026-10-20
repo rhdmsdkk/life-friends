@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    [SerializeField] private float _spawnTaskInterval = 5f;
+    [SerializeField] private float _originalSpawnTaskInterval = 5f;
+    private float _spawnTaskInterval;
+
     [SerializeField] private RedTaskSpawner _redTaskSpawner;
     [SerializeField] private int _maxRedTasks = 10;
 
@@ -17,6 +19,8 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
+        _spawnTaskInterval = _originalSpawnTaskInterval;
+
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         _gameManager = FindAnyObjectByType<GameManager>();
@@ -58,7 +62,7 @@ public class Manager : MonoBehaviour
     public void IncreasePerformance(int performance)
     {
         _performance += performance;
-        _spawnTaskInterval -= Mathf.Sqrt(_performance) * 0.2f;
+        _spawnTaskInterval = _originalSpawnTaskInterval - Mathf.Sqrt(_performance) * 0.3f;
         _spawnTaskInterval = Mathf.Max(0.1f, _spawnTaskInterval);
     }
 
