@@ -66,7 +66,7 @@ public class Manager : MonoBehaviour
     public void IncreasePerformance(int performance)
     {
         _performance += performance;
-        _spawnTaskInterval = _originalSpawnTaskInterval - Mathf.Sqrt(_performance) * 0.3f;
+        _spawnTaskInterval = _originalSpawnTaskInterval - Mathf.Sqrt(_performance) * 0.4f;
         _spawnTaskInterval = Mathf.Max(0.1f, _spawnTaskInterval);
         _scoreText.text = _performance.ToString();
 
